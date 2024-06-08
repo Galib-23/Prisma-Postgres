@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+// --->> TO LOG THE QUERIES
+//const prisma = new PrismaClient({log: ["query"]});
+
 async function main() {
   // ....  Prisma client queries here
   //   const user = await prisma.user.findMany();

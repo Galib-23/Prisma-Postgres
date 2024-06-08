@@ -1,4 +1,4 @@
-# Creating a Node.js server with Express and Typescript
+# Calibrating Prisma with Postgres on node.js
 <br>
 
 **1.** First run this command to initiate the **package.json** file
@@ -150,3 +150,6 @@ npx prisma migrate dev
 ```
 
 **15.** Regenerate Prisma client
+```bash
+npx prisma generate
+```
