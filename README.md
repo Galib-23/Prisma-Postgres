@@ -56,7 +56,7 @@ npm i @prisma/client
 
 **10.** *Manually regenarate prisma client:*
 ```bash
-npm prisma generate
+npx prisma generate
 ```
 
 **11.** It would give some pieces of code as follows:
@@ -66,6 +66,8 @@ const prisma = new PrismaClient()
 ```
 
 **12.** Create a file **script.ts** and paste that code.
+
+***#** Boilerplate for **script.ts** :*
 ```typescript
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -87,4 +89,62 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+```
+
+**13.** Playing with models:
+```prisma
+model User {
+  //field level attributes
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  age            Int
+  role           Role            @default(BASIC)
+  writtenPosts   Post[]          @relation("WrittenPosts")
+  favoritedPosts Post[]          @relation("FavoritePosts")
+  userPreference UserPreference?
+
+  //block level attributes
+  @@unique([age, name])
+  @@index([email])
+}
+
+model UserPreference {
+  id           String  @id @default(uuid())
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String  @unique
+}
+
+model Post {
+  id            String     @id @default(uuid())
+  title         String
+  averageRating Float
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  author        User       @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId      String
+  favoritedBy   User?      @relation("FavoritePosts", fields: [favoritedById], references: [id])
+  favoritedById String?
+  categoryId    String?
+  categories    Category[]
+
+  //@@id([title, authorId])
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+  posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
+```
+
+**14.** After creating the model/Schema, Migrate to database:
+```bash
+npx prisma migrate dev
 ```
