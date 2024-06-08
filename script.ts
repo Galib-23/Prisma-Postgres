@@ -5,7 +5,15 @@ async function main() {
   // ....  Prisma client queries here
   //   const user = await prisma.user.findMany();
   //   console.log(user);
-  await prisma.user.deleteMany();
+  //   await prisma.user.deleteMany();
+  const user = await prisma.user.create({
+    data: {
+        name: "galib2",
+        email: "galib2@gmail.com",
+        age: 22,
+    }
+  })
+  console.log(user)
 }
 
 main()

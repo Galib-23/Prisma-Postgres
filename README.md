@@ -148,3 +148,5 @@ enum Role {
 ```bash
 npx prisma migrate dev
 ```
+
+**15.** Regenerate Prisma client
